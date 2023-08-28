@@ -15,6 +15,7 @@ project "SillyLang"
 
 	includedirs
 	{
+		"include"
 	}
 
 	links
