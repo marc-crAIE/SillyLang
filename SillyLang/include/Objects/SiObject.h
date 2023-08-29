@@ -22,12 +22,7 @@ public:
 	SiTypeObject* GetType() const { return m_Type; }
 
 	inline void IncRef() { m_RefCount++; }
-	inline void DecRef() 
-	{ 
-		m_RefCount--;
-		if (m_RefCount == 0)
-			m_Type->m_Method_Dealloc(this);
-	}
+	void DecRef();
 public:
 	static SiObject* New(SiTypeObject* type);
 	static SiObject* NewRef(SiObject* obj);

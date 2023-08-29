@@ -43,6 +43,13 @@ inline void SiObject::SetType(SiTypeObject* type)
 	m_Type = type;
 }
 
+void SiObject::DecRef()
+{
+	m_RefCount--;
+	if (m_RefCount == 0)
+		m_Type->m_Method_Dealloc(this);
+}
+
 SiObject* SiObject::New(SiTypeObject* type)
 {
 	SiObject* obj = (SiObject*)Memory::Alloc(type->m_Size);
