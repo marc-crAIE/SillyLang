@@ -34,3 +34,5 @@ typedef __uint64_t  Cr_uint64_t;
 
 #define SiAPI_FUNC(RTYPE) RTYPE
 #define SiAPI_DATA(RTYPE) extern RTYPE
+
+#include "macro.h"

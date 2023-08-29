@@ -2,21 +2,16 @@
 
 #include <Memory/Mem.h>
 
-static void String_Dealloc(SiStringObject* self)
-{
-	Si_Type(self)->m_Method_Free(SiObject_Cast(self));
-}
-
 SiTypeObject SiStringType = {
 	SiVarObject_Head_Init(&SiStringType, 0),	// Base
 	"string",									// Name
-	"String object type",					// Doc
-	sizeof(SiStringObject),					// Size
-	0,										// ItemSize
-	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,	// Flags
-	(Destructor)String_Dealloc,				// Dealloc
-	Memory::Free,							// Free
-	NULL									// BaseType
+	"String object type",						// Doc
+	sizeof(SiStringObject),						// Size
+	0,											// ItemSize
+	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,		// Flags
+	NULL,										// Dealloc
+	NULL,										// Free
+	NULL										// BaseType
 };
 
 SiObject* SiStringObject::FromString(std::string str)
@@ -60,11 +55,4 @@ SiObject* SiStringObject::FromCharArrayAndSize(const char* str, size_t size)
 	SiVarObject_SetSize(obj, size);
 	obj->m_Alloc = alloc;
 	return SiObject_Cast(obj);
-}
-
-SiStatus SiStringObject::InitTypes()
-{
-	if (SiType_Ready(&SiStringType) < 0)
-		return SiStatus::Error("Cannot init string type");
-	return SiStatus::Ok();
 }

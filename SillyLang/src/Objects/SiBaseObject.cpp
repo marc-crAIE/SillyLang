@@ -4,7 +4,7 @@
 
 static void Object_Dealloc(SiObject* self)
 {
-	Si_Type(self)->m_Method_Free(self);
+	Si_Type(self)->m_Method_Free(SiObject_Cast(self));
 }
 
 SiAPI_DATA(SiTypeObject) SiBaseType

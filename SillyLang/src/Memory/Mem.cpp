@@ -3,7 +3,7 @@
 void* Memory::Alloc(size_t size)
 {
 	if (size == 0)
-		size == 1;
+		size = 1;
 	return malloc(size);
 }
 

@@ -10,8 +10,6 @@ public:
 public:
 	static SiObject* FromInt(Si_int32_t value);
 	static SiObject* FromString(const char* str, int base = 10);
-
-	static SiStatus InitTypes();
 private:
 	Si_int32_t m_Value;
 };

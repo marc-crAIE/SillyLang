@@ -11,8 +11,6 @@ public:
 	static SiObject* FromString(std::string str);
 	static SiObject* FromCharArray(const char* str);
 	static SiObject* FromCharArrayAndSize(const char* str, size_t size);
-
-	static SiStatus InitTypes();
 private:
 	char* m_Value;
 	size_t m_Alloc;
