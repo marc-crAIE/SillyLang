@@ -4,12 +4,12 @@
 
 static int ReadyPreChecks(SiTypeObject* type)
 {
-	if (type->m_Flags & TYPEFLAG_READY)
+	if (type->m_Flags & TYPE_FLAG_READY)
 		return 1;
 
-	assert((type->m_Flags & TYPEFLAG_READYING) == 0);
+	assert((type->m_Flags & TYPE_FLAG_READYING) == 0);
 
-	type->m_Flags |= TYPEFLAG_READYING;
+	type->m_Flags |= TYPE_FLAG_READYING;
 
 	if (type->m_Name == nullptr)
 	{
@@ -29,7 +29,7 @@ static int ReadySetBaseType(SiTypeObject* type)
 	if (base == NULL && type != &SiBaseType)
 	{
 		base = &SiBaseType;
-		if (type->m_Flags & TYPEFLAG_HEAPTYPE)
+		if (type->m_Flags & TYPE_FLAG_HEAPTYPE)
 			type->m_BaseType = (SiTypeObject*)SiObject_NewRef(base);
 		else
 			type->m_BaseType = base;
@@ -73,8 +73,8 @@ static int ReadyInherit(SiTypeObject* type)
 
 static void StopReadying(SiTypeObject* type)
 {
-	type->m_Flags &= ~TYPEFLAG_READYING;
-	type->m_Flags |= TYPEFLAG_READY;
+	type->m_Flags &= ~TYPE_FLAG_READYING;
+	type->m_Flags |= TYPE_FLAG_READY;
 }
 
 int SiTypeObject::Ready(SiTypeObject* type)

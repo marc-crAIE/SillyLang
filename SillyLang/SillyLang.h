@@ -13,4 +13,5 @@
 #include "Objects/SiBoolObject.h"
 #include "Objects/SiFloatObject.h"
 #include "Objects/SiIntObject.h"
+#include "Objects/SiListObject.h"
 #include "Objects/SiStringObject.h"

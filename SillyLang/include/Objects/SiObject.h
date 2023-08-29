@@ -27,7 +27,7 @@ public:
 	static SiObject* New(SiTypeObject* type);
 	static SiObject* NewRef(SiObject* obj);
 public:
-	size_t m_RefCount;
+	Si_size_t m_RefCount;
 	SiTypeObject* m_Type;
 };
 
@@ -49,10 +49,10 @@ public:
 struct SiVarObject : public SiObject
 {
 public:
-	inline void SetSize(size_t size) { m_Size = size; }
-	size_t GetSize() const { return m_Size; }
+	inline void SetSize(Si_size_t size) { m_Size = size; }
+	Si_size_t GetSize() const { return m_Size; }
 public:
-	size_t m_Size;
+	Si_size_t m_Size;
 private:
 	friend SiObject;
 };
@@ -78,13 +78,15 @@ private:
 
 enum SiTypeFlags
 {
-	TYPEFLAG_DEFAULT	= 0,
+	TYPE_FLAG_DEFAULT		= 0,
 
-	TYPEFLAG_READY		= (1UL << 0),
-	TYPEFLAG_READYING	= (1UL << 1),
+	TYPE_FLAG_READY			= (1UL << 0),
+	TYPE_FLAG_READYING		= (1UL << 1),
 
-	TYPEFLAG_HEAPTYPE	= (1UL << 2),
-	TYPEFLAG_BASETYPE	= (1UL << 3),
+	TYPE_FLAG_HEAPTYPE		= (1UL << 2),
+	TYPE_FLAG_BASETYPE		= (1UL << 3),
+
+	TYPE_FLAG_LIST_SUBCLASS = (1UL << 4),
 };
 
 inline SiTypeFlags operator|(SiTypeFlags a, SiTypeFlags b)
@@ -129,8 +131,8 @@ public:
 	SiVarObject_Head;
 	const char* m_Name;				// SiObject type name
 	const char* m_Doc;				// SiObject type documentation
-	size_t m_Size;
-	size_t m_ItemSize;				// Used for memory allocation
+	Si_size_t m_Size;
+	Si_size_t m_ItemSize;			// Used for memory allocation
 	SiTypeFlags m_Flags;			// Flags for specific features and behaviour
 
 	/* Methods to implement standard operations */

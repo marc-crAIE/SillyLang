@@ -23,7 +23,7 @@ SiAPI_DATA(SiTypeObject) SiFloatType = {
 	"Floating point object type",			// Doc
 	sizeof(SiFloatObject),					// Size
 	0,										// ItemSize
-	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,	// Flags
+	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE,	// Flags
 	Float_StrRepr,							// StringRepr
 	NULL,									// Dealloc
 	NULL,									// Free

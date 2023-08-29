@@ -22,7 +22,7 @@ SiAPI_DATA(SiTypeObject) SiBaseType
 	"Base type",							// Doc
 	sizeof(SiObject),						// Size
 	0,										// ItemSize
-	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,	// Flags
+	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE,	// Flags
 	Object_StrRepr,							// StringRepr
 	Object_Dealloc,							// Dealloc
 	Memory::Free,							// Free

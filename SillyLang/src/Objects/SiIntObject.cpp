@@ -23,7 +23,7 @@ SiAPI_DATA(SiTypeObject) SiIntType = {
 	"Integer object type",					// Doc
 	sizeof(SiIntObject),					// Size
 	0,										// ItemSize
-	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,	// Flags
+	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE,	// Flags
 	Int_StrRepr,							// StringRepr
 	NULL,									// Dealloc
 	NULL,									// Free

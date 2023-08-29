@@ -33,6 +33,23 @@ typedef __uint64_t  Cr_uint64_t;
 
 #endif
 
+typedef float       Si_float_t;
+typedef double      Si_double_t;
+
+typedef std::string Si_string_t;
+
+typedef intptr_t	Si_intptr_t;
+typedef Si_intptr_t Si_size_t;
+typedef Si_size_t	Si_hash_t;
+
+// Largest possible value of size_t.
+#define SI_SIZE_MAX SIZE_MAX
+
+// Largest positive value of type Cr_size_t.
+#define SI_SIZE_T_MAX ((Si_size_t)(((size_t)-1)>>1))
+// Smallest negative value of type Cr_size_t.
+#define SI_SIZE_T_MIN (-SI_SIZE_T_MAX-1)
+
 #define SiAPI_FUNC(RTYPE) RTYPE
 #define SiAPI_DATA(RTYPE) extern RTYPE
 

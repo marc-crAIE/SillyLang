@@ -18,14 +18,14 @@ SiAPI_DATA(SiTypeObject) SiStringType = {
 	"String object type",						// Doc
 	sizeof(SiStringObject),						// Size
 	0,											// ItemSize
-	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,		// Flags
+	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE,		// Flags
 	String_StrRepr,								// StringRepr
 	NULL,										// Dealloc
 	NULL,										// Free
 	NULL										// BaseType
 };
 
-SiObject* SiStringObject::FromString(std::string str)
+SiObject* SiStringObject::FromString(Si_string_t str)
 {
 	return FromCharArray(str.c_str());
 }
@@ -35,7 +35,7 @@ SiObject* SiStringObject::FromCharArray(const char* str)
 	return FromCharArrayAndSize(str, strlen(str));
 }
 
-SiObject* SiStringObject::FromCharArrayAndSize(const char* str, size_t size)
+SiObject* SiStringObject::FromCharArrayAndSize(const char* str, Si_size_t size)
 {
 	SiStringObject* obj;
 	size_t alloc;
