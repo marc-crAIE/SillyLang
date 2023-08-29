@@ -3,6 +3,9 @@
 #include "Memory/Mem.h"
 
 #include "Objects/SiBaseObject.h"
+#include "Objects/SiStringObject.h"
+
+static SiObject* s_ErrorString = SiStringObject::FromCharArray("<NULL>");
 
 void SiObject::Init(SiTypeObject* type)
 {
@@ -13,6 +16,26 @@ void SiObject::Init(SiTypeObject* type)
 void SiObject::NewRef()
 {
 	m_RefCount = 1;
+}
+
+void SiObject::Print()
+{
+	SiStringObject* repr = SiString_Cast(ToString());
+	std::cout << repr->GetValue() << std::endl;
+}
+
+inline SiObject* SiObject::ToString()
+{
+	if (!m_Type->m_Method_StringRepr)
+		goto error;
+
+	SiObject* repr = (*m_Type->m_Method_StringRepr)(this);
+	if (repr == nullptr || !SiString_Check(repr))
+		goto error;
+
+	return repr;
+error:
+	return SiObject_NewRef(s_ErrorString);
 }
 
 inline void SiObject::SetType(SiTypeObject* type)

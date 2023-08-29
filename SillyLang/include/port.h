@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <memory>
 #include <string>
+#include <iostream>
 
 #include "config.h"
 

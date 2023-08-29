@@ -2,7 +2,7 @@
 
 #include "Objects/SiObject.h"
 
-class SiIntObject : public SiVarObject
+struct SiIntObject : public SiVarObject
 {
 public:
 	int GetValue() const { return m_Value; }
@@ -10,7 +10,7 @@ public:
 public:
 	static SiObject* FromInt(Si_int32_t value);
 	static SiObject* FromString(const char* str, int base = 10);
-private:
+public:
 	Si_int32_t m_Value;
 };
 

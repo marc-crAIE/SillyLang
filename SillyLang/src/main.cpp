@@ -2,22 +2,25 @@
 
 #include "../SillyLang.h"
 
-int main()
+SiStatus init()
 {
 	SiStatus status = Lifecycle::InitTypes();
 	if (status.IsException())
-	{
 		std::cout << "An error occured with initializing object types" << std::endl;
+	return status;
+}
+
+int main()
+{
+	SiStatus status = init();
+	if (status.IsException())
 		return -1;
-	}
 
 	SiObject* obj = SiIntObject::FromInt(10);
-	SiIntObject* iObj = SiInt_Cast(obj);
-
 	SiObject* obj2 = SiStringObject::FromCharArray("Hello world!");
-	SiStringObject* sObj = SiString_Cast(obj2);
+	SiObject* obj3 = SiObject_NewRef(Si_True);
 
-	std::cout << sObj->GetValue() << std::endl;
+	obj2->Print();
 
 	return 0;
 }

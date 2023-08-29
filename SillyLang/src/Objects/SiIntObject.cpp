@@ -1,14 +1,30 @@
 #include "Objects/SiIntObject.h"
 
-#include "Memory/Mem.h"
+#include "Objects/SiStringObject.h"
 
-SiTypeObject SiIntType = {
+#pragma region Methods
+
+static SiObject* Int_StrRepr(SiObject* self)
+{
+	if (!Si_Is_Type(self, &SiIntType))
+		return nullptr;
+
+	SiIntObject* i = SiInt_Cast(self);
+	SiObject* repr = SiStringObject::FromString(std::to_string(i->GetValue()));
+	return repr;
+}
+
+#pragma endregion
+
+
+SiAPI_DATA(SiTypeObject) SiIntType = {
 	SiVarObject_Head_Init(&SiIntType, 0),	// Base
 	"int",									// Name
 	"Integer object type",					// Doc
 	sizeof(SiIntObject),					// Size
 	0,										// ItemSize
 	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,	// Flags
+	Int_StrRepr,							// StringRepr
 	NULL,									// Dealloc
 	NULL,									// Free
 	NULL									// BaseType

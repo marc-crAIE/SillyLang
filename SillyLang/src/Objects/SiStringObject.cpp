@@ -1,14 +1,25 @@
 #include "Objects/SiStringObject.h"
 
-#include <Memory/Mem.h>
+#include "Memory/Mem.h"
 
-SiTypeObject SiStringType = {
+#pragma region Methods
+
+static SiObject* String_StrRepr(SiObject* self)
+{
+	return self;
+}
+
+#pragma endregion
+
+
+SiAPI_DATA(SiTypeObject) SiStringType = {
 	SiVarObject_Head_Init(&SiStringType, 0),	// Base
 	"string",									// Name
 	"String object type",						// Doc
 	sizeof(SiStringObject),						// Size
 	0,											// ItemSize
 	TYPEFLAG_DEFAULT | TYPEFLAG_BASETYPE,		// Flags
+	String_StrRepr,								// StringRepr
 	NULL,										// Dealloc
 	NULL,										// Free
 	NULL										// BaseType
@@ -16,9 +27,7 @@ SiTypeObject SiStringType = {
 
 SiObject* SiStringObject::FromString(std::string str)
 {
-	SiStringObject* obj = SiObject_New(SiStringObject, &SiStringType);
-	obj->m_Value = (char*)str.c_str();
-	return SiObject_Cast(obj);
+	return FromCharArray(str.c_str());
 }
 
 SiObject* SiStringObject::FromCharArray(const char* str)

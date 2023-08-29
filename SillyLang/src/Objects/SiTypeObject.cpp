@@ -5,7 +5,7 @@
 static int ReadyPreChecks(SiTypeObject* type)
 {
 	if (type->m_Flags & TYPEFLAG_READY)
-		return -1;
+		return 1;
 
 	assert((type->m_Flags & TYPEFLAG_READYING) == 0);
 
@@ -59,6 +59,9 @@ static int ReadyInherit(SiTypeObject* type)
 	if (base == NULL)
 		return -1;
 
+	if (type->m_Method_StringRepr == NULL)
+		type->m_Method_StringRepr = base->m_Method_StringRepr;
+
 	if (type->m_Method_Dealloc == NULL)
 		type->m_Method_Dealloc = base->m_Method_Dealloc;
 
@@ -68,10 +71,19 @@ static int ReadyInherit(SiTypeObject* type)
 	return 0;
 }
 
+static void StopReadying(SiTypeObject* type)
+{
+	type->m_Flags &= ~TYPEFLAG_READYING;
+	type->m_Flags |= TYPEFLAG_READY;
+}
+
 int SiTypeObject::Ready(SiTypeObject* type)
 {
-	if (ReadyPreChecks(type) < 0)
+	int check = ReadyPreChecks(type);
+	if (check < 0)
 		goto error;
+	else if (check > 0)
+		return 0;
 
 	if (ReadySetBaseType(type) < 0)
 		goto error;
@@ -79,10 +91,10 @@ int SiTypeObject::Ready(SiTypeObject* type)
 	if (ReadyInherit(type) < 0)
 		goto error;
 
-	type->m_Flags &= ~TYPEFLAG_READYING;
+	StopReadying(type);
 	return 0;
 
 error:
-	type->m_Flags &= ~TYPEFLAG_READYING;
+	StopReadying(type);
 	return -1;
 }

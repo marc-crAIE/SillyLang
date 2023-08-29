@@ -6,13 +6,15 @@ static SiTypeObject* s_StaticTypes[] =
 {
 	&SiBaseType,
 
+	&SiBoolType,
+	&SiFloatType,
 	&SiIntType,
 	&SiStringType
 };
 
 SiStatus Lifecycle::InitTypes()
 {
-	SiStatus status;
+	SiStatus status = SiStatus::Ok();
 
 	for (size_t i = 0; i < Si_Array_Length(s_StaticTypes); i++) {
 		SiTypeObject* type = s_StaticTypes[i];
@@ -20,5 +22,5 @@ SiStatus Lifecycle::InitTypes()
 			status = SiStatus::Error("Cannot initialize built-in type!");
 	}
 
-	return SiStatus::Ok();
+	return status;
 }

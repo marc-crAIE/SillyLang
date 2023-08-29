@@ -14,11 +14,20 @@ public:
 	void Init(SiTypeObject* type);
 	void NewRef();
 
+	void Print();
+
+	inline SiObject* ToString();
+
 	inline void SetType(SiTypeObject* type);
 	SiTypeObject* GetType() const { return m_Type; }
 
 	inline void IncRef() { m_RefCount++; }
-	inline void DecRef() { m_RefCount--; }
+	inline void DecRef() 
+	{ 
+		m_RefCount--;
+		if (m_RefCount == 0)
+			m_Type->m_Method_Dealloc(this);
+	}
 public:
 	static SiObject* New(SiTypeObject* type);
 	static SiObject* NewRef(SiObject* obj);
@@ -42,13 +51,12 @@ public:
 
 #pragma region Variable-size Object
 
-struct SiVarObject
+struct SiVarObject : public SiObject
 {
 public:
 	inline void SetSize(size_t size) { m_Size = size; }
 	size_t GetSize() const { return m_Size; }
 public:
-	SiObject m_Base;
 	size_t m_Size;
 private:
 	friend SiObject;
@@ -89,14 +97,19 @@ inline SiTypeFlags operator|(SiTypeFlags a, SiTypeFlags b)
 	return static_cast<SiTypeFlags>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-inline SiTypeFlags operator|=(SiTypeFlags a, SiTypeFlags b)
+inline SiTypeFlags& operator|=(SiTypeFlags& a, SiTypeFlags b)
 {
-	return static_cast<SiTypeFlags>(static_cast<int>(a) | static_cast<int>(b));
+	return a = static_cast<SiTypeFlags>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-inline SiTypeFlags operator&=(SiTypeFlags a, SiTypeFlags b)
+inline SiTypeFlags operator&(SiTypeFlags a, SiTypeFlags b)
 {
 	return static_cast<SiTypeFlags>(static_cast<int>(a) & static_cast<int>(b));
+}
+
+inline SiTypeFlags& operator&=(SiTypeFlags& a, SiTypeFlags b)
+{
+	return a = static_cast<SiTypeFlags>(static_cast<int>(a) & static_cast<int>(b));
 }
 
 inline SiTypeFlags operator~(SiTypeFlags a)
@@ -104,8 +117,9 @@ inline SiTypeFlags operator~(SiTypeFlags a)
 	return static_cast<SiTypeFlags>(~static_cast<int>(a));
 }
 
+typedef SiObject* (*StrRepr)(SiObject*);
 typedef void (*Destructor)(SiObject*);
-typedef void(*FreeFunc)(void*);
+typedef void (*FreeFunc)(void*);
 
 struct SiTypeObject
 {
@@ -118,14 +132,15 @@ public:
 	}
 public:
 	SiVarObject_Head;
-	const char* m_Name;			// SiObject type name
-	const char* m_Doc;			// SiObject type documentation
+	const char* m_Name;				// SiObject type name
+	const char* m_Doc;				// SiObject type documentation
 	size_t m_Size;
-	size_t m_ItemSize;			// Used for memory allocation
-	SiTypeFlags m_Flags;		// Flags for specific features and behaviour
+	size_t m_ItemSize;				// Used for memory allocation
+	SiTypeFlags m_Flags;			// Flags for specific features and behaviour
 
 	/* Methods to implement standard operations */
 
+	StrRepr m_Method_StringRepr;	// SiString representation
 	Destructor m_Method_Dealloc;
 	FreeFunc m_Method_Free;
 
