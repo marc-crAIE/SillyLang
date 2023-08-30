@@ -1,32 +1,32 @@
 #include <iostream>
 
-#include "../SillyLang.h"
+#include "SillyLang.h"
+#include "Core/SiCore.h"
 
-SiStatus init()
+SiStatus SiMain_Init()
 {
-	SiStatus status = Lifecycle::InitTypes();
+	SiStatus status = SillyLang::Init();
 	if (status.IsException())
-		std::cout << "An error occured with initializing object types" << std::endl;
+	{
+		std::cout << "Error: " << status.ErrorMsg << std::endl;
+		return status;
+	}
+
 	return status;
 }
 
-int main()
+int SiMain()
 {
-	SiStatus status = init();
+	int exitCode = 0;
+
+	SiStatus status = SiMain_Init();
 	if (status.IsException())
-		return -1;
+		exitCode = status.ExitCode;
 
-	SiObject* obj = SiIntObject::FromInt(10);
-	SiObject* obj2 = SiStringObject::FromCharArray("Hello world!");
-	SiObject* obj3 = SiObject_NewRef(Si_True);
-	SiObject* obj4 = SiListObject::Create();
+	return exitCode;
+}
 
-	SiListObject* list = SiList_Cast(obj4);
-	list->Add(obj);
-	list->Add(obj2);
-	list->Add(obj3);
-
-	obj2->Print();
-
-	return 0;
+int main(int argc, char** argv)
+{
+	return SiMain();
 }

@@ -2,6 +2,7 @@
 
 /* Core */
 
+#include "Core/SillyLang.h"
 #include "Core/SiStatus.h"
 #include "Core/Lifecycle.h"
 

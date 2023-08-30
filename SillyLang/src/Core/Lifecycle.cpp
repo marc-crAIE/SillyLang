@@ -1,6 +1,6 @@
 #include "Core/Lifecycle.h"
 
-#include "../SillyLang.h"
+#include "SillyLang.h"
 
 static SiTypeObject* s_StaticTypes[] =
 {
