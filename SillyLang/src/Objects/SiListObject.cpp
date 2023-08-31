@@ -2,6 +2,8 @@
 
 #include <Memory/Mem.h>
 
+#include "Error/SiError.h"
+
 #pragma region Helper Functions
 
 static inline bool List_ValidIndex(Si_size_t i, Si_size_t limit)
@@ -40,7 +42,7 @@ static int List_Resize(SiListObject* self, Si_size_t newSize)
 	items = (SiObject**)Memory::Realloc(self->m_Items, numAllocBytes);
 	if (items == nullptr)
 	{
-		//TODO: Out of memory error
+		SiError::OutOfMemory();
 		return -1;
 	}
 
@@ -96,6 +98,7 @@ void SiListObject::SetItem(SiObject* item, Si_size_t index)
 	{
 		item->DecRef();
 		// TODO: Index out of range exception
+		SiError::SetString(&SiIndexErrorException, "list assignment index out of range");
 		return;
 	}
 

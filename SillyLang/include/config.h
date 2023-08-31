@@ -98,6 +98,9 @@
 #       endif
 #endif
 
+#define CPP_RECURSION_LIMIT     1500
+#define SI_RECURSION_LIMIT      1000
+
 #define NAME "SillyLang"
 
 #include "patchlevel.h"

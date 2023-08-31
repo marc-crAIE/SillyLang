@@ -23,6 +23,13 @@ int SiMain()
 	if (status.IsException())
 		exitCode = status.ExitCode;
 
+	SiObject* obj = SiStringObject::FromCharArray("Hello world!");
+	obj->Print();
+
+	if (SiError::Occurred())
+		SiError::Print();
+
+	SillyLang::GetRuntime()->Finalize();
 	return exitCode;
 }
 

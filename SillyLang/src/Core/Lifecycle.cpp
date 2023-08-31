@@ -1,5 +1,6 @@
 #include "Core/Lifecycle.h"
 
+#include "port.h"
 #include "SillyLang.h"
 
 static SiTypeObject* s_StaticTypes[] =
@@ -10,7 +11,19 @@ static SiTypeObject* s_StaticTypes[] =
 	&SiFloatType,
 	&SiIntType,
 	&SiListType,
-	&SiStringType
+	&SiStringType,
+
+	// Exception types
+	&SiExceptionType,
+	
+	&SiTypeErrorExceptionType,
+	&SiIndexErrorExceptionType,
+	&SiValueErrorExceptionType,
+	&SiSyntaxErrorExceptionType,
+	&SiIndentationErrorExceptionType,
+	&SiSystemErrorExceptionType,
+	&SiRuntimeErrorExceptionType,
+	&SiMemoryErrorExceptionType
 };
 
 SiStatus Lifecycle::InitTypes()

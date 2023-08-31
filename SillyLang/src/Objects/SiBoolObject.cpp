@@ -32,7 +32,8 @@ SiAPI_DATA(SiTypeObject) SiBoolType = {
 	"Boolean object type",					// Doc
 	sizeof(SiBoolObject),					// Size
 	0,										// ItemSize
-	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE,	// Flags
+	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE	// Flags
+	| TYPE_FLAG_INT_SUBCLASS,				// ..
 	Bool_StrRepr,							// StringRepr
 	NULL,									// Dealloc
 	NULL,									// Free

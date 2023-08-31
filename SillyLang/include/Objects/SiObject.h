@@ -21,7 +21,7 @@ public:
 	inline void SetType(SiTypeObject* type);
 	SiTypeObject* GetType() const { return m_Type; }
 
-	inline void IncRef() { m_RefCount++; }
+	void IncRef();
 	void DecRef();
 public:
 	static SiObject* New(SiTypeObject* type);
@@ -86,7 +86,9 @@ enum SiTypeFlags
 	TYPE_FLAG_HEAPTYPE		= (1UL << 2),
 	TYPE_FLAG_BASETYPE		= (1UL << 3),
 
-	TYPE_FLAG_LIST_SUBCLASS = (1UL << 4),
+	TYPE_FLAG_INT_SUBCLASS	= (1UL << 4),
+	TYPE_FLAG_LIST_SUBCLASS = (1UL << 5),
+	TYPE_FLAG_EXC_SUBCLASS	= (1UL << 6),
 };
 
 inline SiTypeFlags operator|(SiTypeFlags a, SiTypeFlags b)

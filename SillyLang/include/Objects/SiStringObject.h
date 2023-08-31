@@ -9,6 +9,21 @@ public:
 	void SetValue(Si_string_t& value) { m_Value = (char*)value.c_str(); }
 public:
 	static SiObject* FromString(Si_string_t str);
+
+	template<typename ... Args>
+	static SiObject* FromFormat(const Si_string_t& format, Args ... args)
+	{
+		Si_size_t size = snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
+		if (size <= 0)
+		{
+			SiError::SetString(&SiSystemErrorException, "error occurred when formatting string");
+		}
+		std::unique_ptr<char[]> buf(new char[size]);
+		snprintf(buf.get(), size, format.c_str(), args ...);
+
+		return FromCharArray(Si_string_t(buf.get(), buf.get() + size - 1).c_str());
+	}
+
 	static SiObject* FromCharArray(const char* str);
 	static SiObject* FromCharArrayAndSize(const char* str, Si_size_t size);
 private:

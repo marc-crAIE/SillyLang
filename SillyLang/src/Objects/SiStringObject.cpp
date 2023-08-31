@@ -2,6 +2,8 @@
 
 #include "Memory/Mem.h"
 
+#include "Error/SiError.h"
+
 #pragma region Methods
 
 static SiObject* String_StrRepr(SiObject* self)
@@ -42,6 +44,7 @@ SiObject* SiStringObject::FromCharArrayAndSize(const char* str, Si_size_t size)
 
 	if (size < 0)
 	{
+		SiError::SetString(&SiSystemErrorException, "negative size passed to SiStringObject_FromCharArrayAndSize");
 		return NULL;
 	}
 
