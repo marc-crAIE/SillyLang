@@ -16,6 +16,7 @@ public:
 
 	void Print();
 
+	Si_hash_t Hash();
 	inline SiObject* ToString();
 
 	inline void SetType(SiTypeObject* type);
@@ -117,6 +118,7 @@ inline SiTypeFlags operator~(SiTypeFlags a)
 }
 
 typedef SiObject* (*StrRepr)(SiObject*);
+typedef Si_hash_t (*HashFunc)(SiObject*);
 typedef void (*Destructor)(SiObject*);
 typedef void (*FreeFunc)(void*);
 
@@ -125,10 +127,8 @@ struct SiTypeObject
 public:
 	static int Ready(SiTypeObject* type);
 
-	static inline bool IsType(const SiObject* obj, const SiTypeObject* type)
-	{
-		return Si_Type(obj) == type;
-	}
+	static inline bool IsType(const SiObject* obj, const SiTypeObject* type) { return Si_Type(obj) == type; }
+	static bool IsSubtype(SiTypeObject* a, SiTypeObject* b);
 public:
 	SiVarObject_Head;
 	const char* m_Name;				// SiObject type name
@@ -140,6 +140,7 @@ public:
 	/* Methods to implement standard operations */
 
 	StrRepr m_Method_StringRepr;	// SiString representation
+	HashFunc m_Method_Hash;			// Hash of the object
 	Destructor m_Method_Dealloc;
 	FreeFunc m_Method_Free;
 
@@ -149,6 +150,6 @@ public:
 #define SiType_Ready(type) SiTypeObject::Ready(type)
 
 #define Si_Is_Type(obj, type) SiTypeObject::IsType(SiObject_Cast_Const(obj), type)
-#define SiObject_TypeCheck(obj, type) (Si_Is_Type(obj, type))
+#define SiObject_TypeCheck(obj, type) (Si_Is_Type(obj, type) || SiTypeObject::IsSubtype(Si_Type(obj), type))
 
 #pragma endregion

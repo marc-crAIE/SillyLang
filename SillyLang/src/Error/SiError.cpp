@@ -17,7 +17,7 @@ void SiError::SetObject(SiObject* exception, SiObject* value)
 	}
 	assert(SiString_Check(value));
 
-	SiExceptionObject* exc = SiException_Cast(exception);
+	SiExceptionObject* exc = SiException_SafeCast(exception);
 	value->IncRef();
 	exc->m_Context = value;
 	Restore(exc);
@@ -64,10 +64,10 @@ void SiError::Print()
 
 	if (Occurred())
 	{
-		SiExceptionObject* exc = SiException_Cast(thread->m_CurrException);
-		std::string msg = SiString_Cast(exc->GetType())->GetValue();
+		SiExceptionObject* exc = SiException_SafeCast(thread->m_CurrException);
+		std::string msg = SiString_SafeCast(exc->GetType())->GetValue();
 		msg += ": ";
-		msg += SiString_Cast(exc->GetContext())->GetValue();
+		msg += SiString_SafeCast(exc->GetContext())->GetValue();
 
 		std::cout << msg << std::endl;
 		SillyLang::Exit(exc->m_ExitCode);

@@ -20,4 +20,5 @@ SiAPI_DATA(SiTypeObject) SiFloatType;
 #define SiFloat_Check(self) SiObject_TypeCheck(self, &SiFloatType)
 #define SiFloat_CheckExact(self) Si_Is_Type(self, &SiFloatType)
 
-#define SiFloat_Cast(obj) (assert(SiFloat_Check(obj)), ((SiFloatObject*)obj))
+#define SiFloat_Cast(obj) ((SiFloatObject*)obj)
+#define SiFloat_SafeCast(obj) (assert(SiFloat_Check(obj)), ((SiFloatObject*)obj))

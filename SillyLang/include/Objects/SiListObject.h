@@ -8,6 +8,7 @@ public:
 	void Add(SiObject* item);
 	void Resize(Si_size_t newSize);
 	void SetItem(SiObject* item, Si_size_t index);
+	SiObject* GetItem(Si_size_t index);
 
 	inline Si_size_t GetSize() const { return Si_Size(this); }
 	inline Si_size_t GetAllocated() const { return m_Alloc; }
@@ -24,4 +25,5 @@ SiAPI_DATA(SiTypeObject) SiListType;
 #define SiList_Check(self) SiObject_TypeCheck(self, &SiListType)
 #define SiList_CheckExact(self) Si_Is_Type(self, &SiListType)
 
-#define SiList_Cast(obj) (assert(SiList_Check(obj)), ((SiListObject*)obj))
+#define SiList_Cast(obj) ((SiListObject*)obj)
+#define SiList_SafeCast(obj) (assert(SiList_Check(obj)), ((SiListObject*)obj))

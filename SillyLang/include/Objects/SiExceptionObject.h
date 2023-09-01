@@ -36,7 +36,8 @@ public:
 
 #define SiException_Check(self) ((Si_Type(self)->m_Flags & TYPE_FLAG_EXC_SUBCLASS) != 0)
 
-#define SiException_Cast(obj) (assert(SiException_Check(obj)), ((SiExceptionObject*)obj))
+#define SiException_Cast(obj) ((SiExceptionObject*)obj)
+#define SiException_SafeCast(obj) (assert(SiException_Check(obj)), ((SiExceptionObject*)obj))
 
 SiAPI_DATA(SiExceptionObject) SiException;
 

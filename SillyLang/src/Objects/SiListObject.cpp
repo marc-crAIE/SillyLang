@@ -3,6 +3,7 @@
 #include <Memory/Mem.h>
 
 #include "Error/SiError.h"
+#include "Objects/SiStringObject.h"
 
 #pragma region Helper Functions
 
@@ -68,6 +69,40 @@ static int List_Append(SiListObject* self, SiObject* obj)
 
 #pragma endregion
 
+#pragma region Methods
+
+static SiObject* List_StrRepr(SiObject* self)
+{
+	if (Si_Size(self) == 0)
+		return SiStringObject::FromCharArray("[]");
+
+	SiObject* repr = SiStringObject::FromCharArray("[");
+
+	SiListObject* list = SiList_SafeCast(self);
+	for (Si_size_t i = 0; i < list->GetSize(); i++)
+	{
+		if (i > 0)
+			repr = SiStringObject::Concat(repr, ", ");
+
+		SiObject* obj = list->m_Items[i];
+		if (obj == self)
+			repr = SiStringObject::Concat(repr, "[...]");
+		else
+		{
+			SiObject* s = obj->ToString();
+			repr = SiStringObject::Concat(repr, s);
+			s->DecRef();
+		}
+	}
+
+	repr = SiStringObject::Concat(repr, "]");
+	SiStringObject* s = SiString_SafeCast(repr);
+	return repr;
+}
+
+#pragma endregion
+
+
 SiAPI_DATA(SiTypeObject) SiListType = {
 	SiVarObject_Head_Init(&SiListType, 0),	// Base
 	"list",									// Name
@@ -76,7 +111,8 @@ SiAPI_DATA(SiTypeObject) SiListType = {
 	0,										// ItemSize
 	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE	// Flags
 	| TYPE_FLAG_LIST_SUBCLASS,				// ..
-	NULL,									// StringRepr
+	List_StrRepr,							// StringRepr
+	NULL,									// Hash
 	NULL,									// Dealloc
 	NULL,									// Free
 	NULL									// BaseType
@@ -97,13 +133,24 @@ void SiListObject::SetItem(SiObject* item, Si_size_t index)
 	if (!List_ValidIndex(index, GetSize()))
 	{
 		item->DecRef();
-		// TODO: Index out of range exception
 		SiError::SetString(&SiIndexErrorException, "list assignment index out of range");
 		return;
 	}
 
 	m_Items[index]->DecRef();
 	m_Items[index] = item;
+}
+
+SiObject* SiListObject::GetItem(Si_size_t index)
+{
+	if (!List_ValidIndex(index, GetSize()))
+	{
+		SiError::SetString(&SiIndexErrorException, "list assignment index out of range");
+		return nullptr;
+	}
+
+	m_Items[index]->IncRef();
+	return m_Items[index];
 }
 
 SiObject* SiListObject::Create(Si_size_t size)

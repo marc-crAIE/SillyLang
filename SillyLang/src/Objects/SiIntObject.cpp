@@ -6,12 +6,15 @@
 
 static SiObject* Int_StrRepr(SiObject* self)
 {
-	if (!Si_Is_Type(self, &SiIntType))
-		return nullptr;
-
-	SiIntObject* i = SiInt_Cast(self);
+	SiIntObject* i = SiInt_SafeCast(self);
 	SiObject* repr = SiStringObject::FromString(std::to_string(i->GetValue()));
 	return repr;
+}
+
+static Si_hash_t Int_Hash(SiObject* self)
+{
+	SiIntObject* i = SiInt_SafeCast(self);
+	return i->m_Value;
 }
 
 #pragma endregion
@@ -25,6 +28,7 @@ SiAPI_DATA(SiTypeObject) SiIntType = {
 	0,										// ItemSize
 	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE,	// Flags
 	Int_StrRepr,							// StringRepr
+	Int_Hash,								// Hash
 	NULL,									// Dealloc
 	NULL,									// Free
 	NULL									// BaseType

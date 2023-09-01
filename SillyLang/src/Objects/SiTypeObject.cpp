@@ -62,6 +62,9 @@ static int ReadyInherit(SiTypeObject* type)
 	if (type->m_Method_StringRepr == NULL)
 		type->m_Method_StringRepr = base->m_Method_StringRepr;
 
+	if (type->m_Method_Hash == NULL)
+		type->m_Method_Hash = base->m_Method_Hash;
+
 	if (type->m_Method_Dealloc == NULL)
 		type->m_Method_Dealloc = base->m_Method_Dealloc;
 
@@ -97,4 +100,15 @@ int SiTypeObject::Ready(SiTypeObject* type)
 error:
 	StopReadying(type);
 	return -1;
+}
+
+bool SiTypeObject::IsSubtype(SiTypeObject* a, SiTypeObject* b)
+{
+	do
+	{
+		if (a == b)
+			return true;
+		a = a->m_BaseType;
+	} while (a != nullptr);
+	return (b == &SiBaseType);
 }

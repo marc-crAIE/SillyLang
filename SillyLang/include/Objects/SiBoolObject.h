@@ -12,7 +12,7 @@ public:
 
 SiAPI_DATA(SiTypeObject) SiBoolType;
 
-#define SiBoolCheck(x) Si_Is_Type(x, &SiBoolType)
+#define SiBool_Check(x) Si_Is_Type(x, &SiBoolType)
 
 /*
 	Booleans are weird in SillyLang as it has 3 bool values:

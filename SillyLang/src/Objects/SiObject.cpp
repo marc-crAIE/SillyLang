@@ -27,6 +27,11 @@ void SiObject::Print()
 	std::cout << repr->GetValue() << std::endl;
 }
 
+Si_hash_t SiObject::Hash()
+{
+	return (*m_Type->m_Method_Hash)(this);
+}
+
 inline SiObject* SiObject::ToString()
 {
 	if (!m_Type->m_Method_StringRepr)

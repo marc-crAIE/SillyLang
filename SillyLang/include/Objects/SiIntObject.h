@@ -19,4 +19,5 @@ SiAPI_DATA(SiTypeObject) SiIntType;
 #define SiInt_Check(self) SiObject_TypeCheck(self, &SiIntType)
 #define SiInt_CheckExact(self) Si_Is_Type(self, &SiIntType)
 
-#define SiInt_Cast(obj) (assert(SiInt_Check(obj)), ((SiIntObject*)obj))
+#define SiInt_Cast(obj) ((SiIntObject*)obj)
+#define SiInt_SafeCast(obj) (assert(SiInt_Check(obj)), ((SiIntObject*)obj))

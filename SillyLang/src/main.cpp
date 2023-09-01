@@ -23,8 +23,11 @@ int SiMain()
 	if (status.IsException())
 		exitCode = status.ExitCode;
 
-	SiObject* obj = SiStringObject::FromCharArray("Hello world!");
-	obj->Print();
+	SiObject* obj = SiObject_NewRef(Si_Maybe);
+	Si_hash_t hash = obj->Hash();
+	std::cout << hash << std::endl;
+	SiObject* objHash = SiIntObject::FromInt(hash);
+	objHash->Print();
 
 	if (SiError::Occurred())
 		SiError::Print();

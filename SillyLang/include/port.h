@@ -41,6 +41,7 @@ typedef std::string Si_string_t;
 typedef intptr_t	Si_intptr_t;
 typedef Si_intptr_t Si_size_t;
 typedef Si_size_t	Si_hash_t;
+typedef size_t		Si_uhash_t;
 
 // Largest possible value of size_t.
 #define SI_SIZE_MAX SIZE_MAX

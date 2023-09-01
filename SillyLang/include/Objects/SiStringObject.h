@@ -8,6 +8,9 @@ public:
 	const char* GetValue() const { return m_Value; }
 	void SetValue(Si_string_t& value) { m_Value = (char*)value.c_str(); }
 public:
+	static SiObject* Concat(SiObject* a, const char* b);
+	static SiObject* Concat(SiObject* a, SiObject* b);
+
 	static SiObject* FromString(Si_string_t str);
 
 	template<typename ... Args>
@@ -36,4 +39,5 @@ SiAPI_DATA(SiTypeObject) SiStringType;
 #define SiString_Check(self) SiObject_TypeCheck(self, &SiStringType)
 #define SiString_CheckExact(self) Si_Is_Type(self, &SiStringType)
 
-#define SiString_Cast(obj) (assert(SiString_Check(obj)), ((SiStringObject*)obj))
+#define SiString_Cast(obj) ((SiStringObject*)obj)
+#define SiString_SafeCast(obj) (assert(SiString_Check(obj)), ((SiStringObject*)obj))

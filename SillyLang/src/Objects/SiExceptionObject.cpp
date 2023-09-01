@@ -14,6 +14,7 @@ SiAPI_DATA(SiTypeObject) Si ##type## Type = {	\
 	NULL,										\
 	NULL,										\
 	NULL,										\
+	NULL,										\
 	&SiExceptionType							\
 }
 
@@ -38,6 +39,7 @@ SiAPI_DATA(SiTypeObject) SiExceptionType = {
 	TYPE_FLAG_DEFAULT | TYPE_FLAG_BASETYPE		// Flags
 	| TYPE_FLAG_EXC_SUBCLASS,					// ..
 	NULL,										// StringRepr
+	NULL,										// Hash
 	NULL,										// Dealloc
 	NULL,										// Free
 	NULL										// BaseType
